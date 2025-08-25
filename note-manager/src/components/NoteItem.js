@@ -1,14 +1,17 @@
 import { useState } from "react";
 
-export default function NoteItem({ note,onSave,onDelete }) {
+export default function NoteItem({ note, onSave, onDelete }) {
     const [edit, setEdit] = useState(false);
+    const [confirm, setConfirm] = useState(false);
     const [title, setTitle] = useState(note.title);
     const [content, setContent] = useState(note.content);
     const [tagsString, setTagsString] = useState(note.tags.join(", "));
 
     const save = () => {
-        onSave({ title: title.trim() || note.title, content: content.trim() || note.content,
-             tags: tagsString.split(",").map(t => t.trim()).filter(Boolean)  });
+        onSave({
+            title: title.trim() || note.title, content: content.trim() || note.content,
+            tags: tagsString.split(",").map(t => t.trim()).filter(Boolean)
+        });
         setEdit(false);
     };
 
@@ -32,7 +35,13 @@ export default function NoteItem({ note,onSave,onDelete }) {
                 <>
                     <h3>{note.title}</h3>
                     {(note.content) && <p className="muted">{note.content}</p>}
-                    {(note.tags) && <p className="muted">{note.tags.join(", ")}</p>}
+                    {(note.tags) && <div className="tags">
+                        {note.tags.map((tag, i) => (
+                            <span key={i} className="badge">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>}
                 </>
             )}
 
@@ -44,14 +53,17 @@ export default function NoteItem({ note,onSave,onDelete }) {
                         <button onClick={save}>Save</button>
                         <button onClick={() => { setEdit(false); }}>Cancel</button>
                     </>
+                ) : confirm ? (
+                    <>
+                        <button onClick={() => setConfirm(false)}>Cancel</button>
+                        <button className="danger" onClick={onDelete}>Confirm</button>
+                    </>
                 ) : (
                     <>
-                        <button onClick={() => { setEdit(true);}}>Edit</button>
-                        <button className="danger" onClick={onDelete}>Delete</button>
+                        <button onClick={() => setEdit(true)}>Edit</button>
+                        <button className="danger" onClick={() => setConfirm(true)}>Delete</button>
                     </>
-
                 )}
-
             </div>
 
         </div>

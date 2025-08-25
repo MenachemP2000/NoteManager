@@ -4,6 +4,7 @@ import NoteForm from "./components/NoteForm";
 import NoteList from "./components/NoteList";
 import NoteItem from "./components/NoteItem";
 import NoteSearch from "./components/NoteSearch";
+import NoteFilter from "./components/NoteFilter";
 
 
 const API = "/api/notes";
@@ -15,11 +16,16 @@ function App() {
   const [theme, setTheme] = useState("dark");
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
+  const [mode, setMode] = useState("all");
+  const [selectedTags, setSelectedTags] = useState([]);
+
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
 
   }, [theme]);
+
+
 
   useEffect(() => {
     (async () => {
@@ -33,16 +39,27 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!query) return;
     (async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${API}/search?q=${query}`);
-        setNotes(await response.json());
+        let response;
+        if (query) {
+          response = await fetch(`${API}/search?q=${query}`);
+        }
+        else {
+          response = await fetch(API);
+        }
+        const notesRes = await response.json()
+        if (mode === "all" || selectedTags.length === 0) {
+          setNotes(notesRes);
+        }
+        else {
+          setNotes(notesRes.filter(n => (n.tags || []).some(t => selectedTags.includes(t))));
+        }
       } catch { setErr("failed to load notes"); }
       finally { setLoading(false); }
     })();
-  }, [query]);
+  }, [query, mode, selectedTags]);
 
   const addNote = async (payload) => {
     setErr("");
@@ -51,10 +68,11 @@ function App() {
       if (!response.ok) throw 0;
       const note = await response.json();
       setNotes(((p) => [...p, note]));
+      setQuery("");;
     } catch { setErr("Could not add note") };
   };
-  
-  const updateNote = async (id,patch) => {
+
+  const updateNote = async (id, patch) => {
     setErr("");
     try {
       const res = await fetch(`${API}/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) });
@@ -75,11 +93,24 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Note Manager</h1>
+    <div className="app">
+      <div className="toolbar">
+        <h1>Note Manager</h1>
+        <button type="button" onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}>
+          {theme === "dark" ? "Light mode" : "Dark mode"}
+        </button>
+
+      </div>
 
       <NoteForm onAdd={addNote}></NoteForm>
       <NoteSearch query={query} onQueryChange={setQuery} ></NoteSearch>
+      <br></br>
+      <NoteFilter
+        mode={mode}
+        setMode={setMode}
+        setSelectedTags={setSelectedTags}
+        theme={theme} onToggleTheme={() => setTheme(t => t === "dark" ? "light" : "dark")}>
+      </NoteFilter>
 
       {loading ? (
         <p className="muted">Loading…</p>

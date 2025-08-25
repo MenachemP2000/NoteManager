@@ -1,38 +1,443 @@
-.App {
+:root {
+  --bg: #1b1f27;
+  --card: #242a36;
+  --muted: #9aa3b5;
+  --text: #f2f5fa;
+  --accent: #ff9f43;
+  --border: #2f3644;
+  --danger: #e74c3c;
+  --badge-bg: #2b3a55;
+  --badge-text: #d6e4ff;
+
+
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, .25);
+  --transition: 180ms ease;
+}
+
+/*Light Theme*/
+[data-theme="light"] {
+  --bg: #f9fafc;
+  --card: #ffffff;
+  --muted: #6c757d;
+  --text: #1e2328;
+  --accent: #ff9f43;
+  --border: #e2e6ef;
+  --danger: #e74c3c;
+  --badge-bg: #e9f2ff;
+  --badge-text: #1c3a5f;
+
+  --shadow: 0 4px 14px rgba(0, 0, 0, .08);
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: var(--bg);
+}
+
+.app {
+  max-width: 960px;
+  margin: 24px auto;
+  padding: 0 16px 40px;
+}
+
+h1 {
+  margin: 8px 0 16px;
+  font-size: clamp(22px, 2.4vw, 28px);
+  letter-spacing: 0.3px;
+}
+
+/*Cards*/
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+  border-color: #2d3645;
+}
+
+
+.muted {
+  color: var(--muted);
+}
+
+.low {
+  color: var(--low);
+  text-align: right;
+}
+
+.med {
+  color: var(--med);
+  text-align: right;
+}
+
+.high {
+  color: var(--high);
+  text-align: right;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 140px 120px;
+  gap: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.form input,
+.form select {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+}
+
+.form input:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(77, 163, 255, .18);
+}
+
+.form button {
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #08111f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), filter var(--transition);
+}
+
+.form button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+.form button:active {
+  transform: translateY(0);
+}
+
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: ;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.toolbar button {
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--accent);
+  color: #08111f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), filter var(--transition);
+}
+
+
+.toolbar button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+.toolbar button:active {
+  transform: translateY(0);
+}
+.toolbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+.tag-picker input {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.tag-picker input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(77, 163, 255, .25);
+}
+
+/*Search bar*/
+.search-wrap {
+  flex: 1;
+  min-width: 160px;
+}
+
+.search {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(77, 163, 255, .25);
+}
+
+
+
+
+/*note Card*/
+.note {
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.note.done {
+  opacity: .82;
+  border-color: #2a3a50;
+}
+
+.note header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+
+  border: 1px solid var(--border);
+  transition: transform var(--transition);
+}
+
+.badge.low {
+  background: rgba(57, 217, 138, .12);
+  color: var(--low);
+  border-color: rgba(57, 217, 138, .35);
+}
+
+.badge.medium {
+  background: rgba(255, 176, 32, .12);
+  color: var(--med);
+  border-color: rgba(255, 176, 32, .38);
+}
+
+.badge.high {
+  background: rgba(255, 107, 107, .12);
+  color: var(--high);
+  border-color: rgba(255, 107, 107, .38);
+}
+
+.note:hover .badge {
+  transform: translateY(-1px);
+}
+
+.createdAt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.note h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.note .actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/*editing*/
+.note.editing {
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.25);
+  background: var(--card);
+}
+
+.note.editing input,
+.note.editing select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.note.editing input:focus,
+.note.editing select:focus {
+  outline: none;
+  border-color: var(--bg);
+  box-shadow: 0 0 0 2px rgba(77, 163, 255, 0.35);
+}
+
+.note.editing .actions button {
+  background: var(--bg);
+  border: 0;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.note.editing .actions button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+
+.note .actions button {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.note .actions button:hover {
+  transform: translateY(-1px);
+  background: var(--accent);
+  border-color: var(--border);
+}
+
+.note .actions .danger {
+  background: var(--danger);
+  color: var(--text);
+}
+
+.note .actions .danger:hover {
+  background: var(--high);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.track {
+  display: flex;
+  width: 300%;
+  will-change: transform;
+  transition: transform 380ms ease-out;
+  backface-visibility: hidden;
+}
+
+.slide {
+  flex: 0 0 33.3333%;
+  padding: 8px;
+}
+
+.empty {
+  padding: 16px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.empty button {
+  margin-top: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 0;
+  background: linear-gradient(180deg, #5ab2ff, #338dff);
+  color: #08111f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition), filter var(--transition);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.empty button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+
+@media (max-width: 680px) {
+
+  .search-wrap {
+    width: 100%;
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .form {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
+
+  .filter {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grid {
+    gap: 6px;
+    flex-direction: column;
+  }
+
+  .track {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .slide {
+    padding: 6px;
   }
 }
