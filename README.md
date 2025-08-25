@@ -23,11 +23,15 @@ Users can create, edit, delete, and search notes, with support for tags and filt
 ## ⚙️ Setup & Installation
 
 cd backend
+
 npm install
+
 npm start
 
-cd frontend
+cd note-manager
+
 npm install
+
 npm start
 
 ## 📸 Screenshots
